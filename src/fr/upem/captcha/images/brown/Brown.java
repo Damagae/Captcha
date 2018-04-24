@@ -4,27 +4,33 @@ import java.net.URL;
 import java.util.List;
 
 import fr.upem.captcha.images.Images;
+import fr.upem.captcha.images.ImagesCollection;
+import fr.upem.captcha.images.Image;
 
-public class Brown implements Images {
+public class Brown extends ImagesCollection {
 
 	public Brown() {
-		// TODO Auto-generated constructor stub
+		super();
+		this.category = "brown";
+		this.categoryUrl += "/brown";
 	}
-
+	
+	
+	/*
 	@Override
-	public List<URL> getPhotos() {
+	public List<Image> getPhotos() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<URL> getRandomPhotosURL() {
+	public List<Image> getRandomPhotos() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public URL getRandomPhotoURL() {
+	public Image getRandomPhoto() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -34,5 +40,6 @@ public class Brown implements Images {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	*/
 
 }

@@ -83,6 +83,10 @@ public class Ui {
 		});
 	}
 	
+	public static void createDisplay(int difficulty) {
+		
+	}
+	
 	public static JLabel createLabelImage(String imageLocation) throws IOException {
 		
 		final URL url = Ui.class.getResource(imageLocation); //Aller chercher les images !! IMPORTANT 

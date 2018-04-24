@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -22,10 +23,16 @@ import javax.swing.JLabel;
 import javax.swing.JTextArea;
 
 import fr.upem.captcha.ui.Ui;
+import fr.upem.captcha.images.brown.Brown;
 
 public class Main {
 
 	public static void main(String[] args) throws IOException {
+		
+		Brown brown = new Brown();
+		brown.browsesRepositories();
+		
+		System.out.println(brown.getList());
 		
 		JFrame frame = new JFrame("Captcha"); // Création de la fenêtre principale
 		GridLayout layout = Ui.createLayout();  // Création d'un layout de type Grille avec 4 lignes et 3 colonnes
@@ -38,15 +45,15 @@ public class Main {
 		 
 		JButton okButton = Ui.createOkButton();
 
-		frame.add(Ui.createLabelImage("/fr/upem/captcha/images/puppybaggel/pob01.jpg")); //ajouter des composants à la fenêtre
-		frame.add(Ui.createLabelImage("/fr/upem/captcha/images/puppybaggel/pob02.jpg"));
-		frame.add(Ui.createLabelImage("/fr/upem/captcha/images/puppybaggel/pob03.jpg"));
-		frame.add(Ui.createLabelImage("/fr/upem/captcha/images/puppybaggel/pob04.jpg"));
-		frame.add(Ui.createLabelImage("/fr/upem/captcha/images/puppybaggel/pob05.jpg"));
-		frame.add(Ui.createLabelImage("/fr/upem/captcha/images/puppybaggel/pob06.jpg"));
-		frame.add(Ui.createLabelImage("/fr/upem/captcha/images/puppybaggel/pob07.jpg"));
-		frame.add(Ui.createLabelImage("/fr/upem/captcha/images/puppybaggel/pob08.jpg"));
-		frame.add(Ui.createLabelImage("/fr/upem/captcha/images/puppybaggel/pob09.jpg"));
+		frame.add(Ui.createLabelImage("/fr/upem/captcha/images/brown/soft/round/puppies/puppy01.jpg")); //ajouter des composants à la fenêtre
+		frame.add(Ui.createLabelImage("/fr/upem/captcha/images/brown/soft/round/baggels/baggel01.jpg"));
+		frame.add(Ui.createLabelImage("/fr/upem/captcha/images/brown/soft/round/puppies/puppy02.jpg"));
+		frame.add(Ui.createLabelImage("/fr/upem/captcha/images/brown/soft/round/baggels/baggel02.jpg"));
+		frame.add(Ui.createLabelImage("/fr/upem/captcha/images/brown/soft/round/puppies/puppy03.jpg"));
+		frame.add(Ui.createLabelImage("/fr/upem/captcha/images/brown/soft/round/baggels/baggel03.jpg"));
+		frame.add(Ui.createLabelImage("/fr/upem/captcha/images/brown/soft/round/puppies/puppy04.jpg"));
+		frame.add(Ui.createLabelImage("/fr/upem/captcha/images/brown/soft/round/baggels/baggel04.jpg"));
+		frame.add(Ui.createLabelImage("/fr/upem/captcha/images/brown/soft/round/puppies/puppy05.jpg"));
 		
 		frame.add(new JTextArea("Cliquez n'importe où ... juste pour tester l'interface !"));
 		
