@@ -25,6 +25,7 @@ public class Ui {
 	
 	private static ArrayList<URL> selectedImages = new ArrayList<URL>();
 	
+	/*
 	public static void main(String[] args) throws IOException {
 		JFrame frame = new JFrame("Capcha"); // Création de la fenêtre principale
 		
@@ -58,10 +59,11 @@ public class Ui {
 		
 		frame.setVisible(true);
 	}
+	*/
 	
 	
 	public static GridLayout createLayout(){
-		return new GridLayout(4,3);
+		return new GridLayout(4,4);
 	}
 	
 	public static JButton createOkButton(){
@@ -69,7 +71,8 @@ public class Ui {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				EventQueue.invokeLater(new Runnable() { // faire des choses dans l'interface donc appeler cela dans la queue des évènements
+				EventQueue.invokeLater(new Runnable() { 
+				// faire des choses dans l'interface donc appeler cela dans la queue des évènements
 					
 					@Override
 					public void run() { // c'est un runnable
@@ -87,7 +90,7 @@ public class Ui {
 		System.out.println(url); 
 		
 		BufferedImage img = ImageIO.read(url); //lire l'image
-		Image sImage = img.getScaledInstance(1024/3,768/4, Image.SCALE_SMOOTH); //redimentionner l'image
+		Image sImage = img.getScaledInstance(1024/4, 768/4, Image.SCALE_SMOOTH); //redimentionner l'image
 		
 		final JLabel label = new JLabel(new ImageIcon(sImage)); // créer le composant pour ajouter l'image dans la fenêtre
 		

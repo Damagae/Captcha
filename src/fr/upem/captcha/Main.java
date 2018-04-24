@@ -1,3 +1,5 @@
+package fr.upem.captcha;
+
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.GridLayout;
@@ -36,15 +38,15 @@ public class Main {
 		 
 		JButton okButton = Ui.createOkButton();
 
-		frame.add(Ui.createLabelImage("/fr/upem/captcha/images/test/centre ville.jpg")); //ajouter des composants à la fenêtre
-		frame.add(Ui.createLabelImage("/fr/upem/captcha/images/test/le havre.jpg"));
-		frame.add(Ui.createLabelImage("/fr/upem/captcha/images/test/panneau 70.jpg"));
-		frame.add(Ui.createLabelImage("/fr/upem/captcha/images/test/panneaubleu-carre.jpeg"));
-		frame.add(Ui.createLabelImage("/fr/upem/captcha/images/test/parking.jpg"));
-		frame.add(Ui.createLabelImage("/fr/upem/captcha/images/test/route panneau.jpg"));
-		frame.add(Ui.createLabelImage("/fr/upem/captcha/images/test/tour eiffel.jpg"));
-		frame.add(Ui.createLabelImage("/fr/upem/captcha/images/test/ville espace verts.jpg"));
-		frame.add(Ui.createLabelImage("/fr/upem/captcha/images/test/voie pieton.jpg"));
+		frame.add(Ui.createLabelImage("/fr/upem/captcha/images/puppybaggel/pob01.jpg")); //ajouter des composants à la fenêtre
+		frame.add(Ui.createLabelImage("/fr/upem/captcha/images/puppybaggel/pob02.jpg"));
+		frame.add(Ui.createLabelImage("/fr/upem/captcha/images/puppybaggel/pob03.jpg"));
+		frame.add(Ui.createLabelImage("/fr/upem/captcha/images/puppybaggel/pob04.jpg"));
+		frame.add(Ui.createLabelImage("/fr/upem/captcha/images/puppybaggel/pob05.jpg"));
+		frame.add(Ui.createLabelImage("/fr/upem/captcha/images/puppybaggel/pob06.jpg"));
+		frame.add(Ui.createLabelImage("/fr/upem/captcha/images/puppybaggel/pob07.jpg"));
+		frame.add(Ui.createLabelImage("/fr/upem/captcha/images/puppybaggel/pob08.jpg"));
+		frame.add(Ui.createLabelImage("/fr/upem/captcha/images/puppybaggel/pob09.jpg"));
 		
 		frame.add(new JTextArea("Cliquez n'importe où ... juste pour tester l'interface !"));
 		
