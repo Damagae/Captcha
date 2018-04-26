@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 public abstract class ImagesCollection implements Images {
 	protected List<Image> list;
@@ -46,8 +47,8 @@ public abstract class ImagesCollection implements Images {
 	}
 
 	@Override
-	public boolean isPhotoCorrect(Image img) {
-		if (this.equals(img)) {
+	public boolean isPhotoCorrect(ImagesCollection imgCollection) {
+		if (this.equals(imgCollection)) {
 			return true;
 		}
 		else {

@@ -91,7 +91,7 @@ public class Ui {
 		
 		final URL url = Ui.class.getResource(imageLocation); //Aller chercher les images !! IMPORTANT 
 		
-		System.out.println(url); 
+		//System.out.println(url); 
 		
 		BufferedImage img = ImageIO.read(url); //lire l'image
 		Image sImage = img.getScaledInstance(1024/4, 768/4, Image.SCALE_SMOOTH); //redimentionner l'image

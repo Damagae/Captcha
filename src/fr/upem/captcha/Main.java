@@ -23,16 +23,20 @@ import javax.swing.JLabel;
 import javax.swing.JTextArea;
 
 import fr.upem.captcha.ui.Ui;
+import fr.upem.captcha.images.Images;
+import fr.upem.captcha.images.ImagesCollection;
 import fr.upem.captcha.images.brown.Brown;
+import fr.upem.captcha.Categories;
 
 public class Main {
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws Exception {
 		
 		Brown brown = new Brown();
 		brown.browsesRepositories();
 		
-		System.out.println(brown.getList());
+		Categories cat = new Categories();
+		System.out.println(cat.getDifficulty(1));
 		
 		JFrame frame = new JFrame("Captcha"); // Création de la fenêtre principale
 		GridLayout layout = Ui.createLayout();  // Création d'un layout de type Grille avec 4 lignes et 3 colonnes
