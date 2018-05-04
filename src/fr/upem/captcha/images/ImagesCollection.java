@@ -9,12 +9,15 @@ import java.util.Set;
 public abstract class ImagesCollection implements Images {
 	protected List<Image> list;
 	protected String category;
-	protected String categoryUrl;
+	public String categoryUrl;
 	
 	public ImagesCollection() {
 		super();
 		list = new ArrayList<Image>();
-		this.categoryUrl = System.getProperty("user.dir") + "/src/fr/upem/captcha/images";
+		String path = Images.class.getResource("Images.class").getPath();
+		File dir = new File(path);
+		this.categoryUrl = dir.getParent();
+		System.out.println(this.categoryUrl);
 	}
 
 	public List<Image> getList() {

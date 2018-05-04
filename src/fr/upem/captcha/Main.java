@@ -35,6 +35,8 @@ public class Main {
 		Brown brown = new Brown();
 		brown.browsesRepositories();
 		
+		System.out.println(Images.class.getResource("Images.class").getPath());
+		
 		Categories cat = new Categories();
 		System.out.println(cat.getDifficulty(1));
 		

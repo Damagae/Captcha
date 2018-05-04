@@ -13,7 +13,10 @@ public class Categories {
 
 	public Categories() throws Exception {
 		super();
-		browsesPackages(new File(System.getProperty("user.dir") + "/src/fr/upem/captcha/images"), 1, 10);
+		String path = Images.class.getResource("Images.class").getPath();
+		File dir = new File(path);
+		path = dir.getParent();
+		browsesPackages(new File(path), 1, 10);
 	}
 	
 	public void browsesPackages(File dir, int depth, int maxDepth) throws Exception {
@@ -22,7 +25,9 @@ public class Categories {
         }
         if (dir.isDirectory()) { // Si dir est un dossier
         	if (depth > 1)
-        		this.list.put(depth, (ImagesCollection) Class.forName(dir.getName().substring(0, 1).toUpperCase() + dir.getName().substring(1)).newInstance());
+        	{
+        		this.list.put(depth, (ImagesCollection) Class.forName(dir.getPath() + "/" + dir.getName().substring(0, 1).toUpperCase() + dir.getName().substring(1)).newInstance() + ".class");
+        	}
         	File[] subDirs = dir.listFiles(); // On crée un tableau de Files
         	for (int i = 0; i < subDirs.length; ++i){  // Pour chaque File
         		File subDir = subDirs[i];
