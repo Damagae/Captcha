@@ -17,56 +17,21 @@ import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.JTextArea;
+import javax.swing.JOptionPane;
+
+import fr.upem.captcha.Controller;
 
 public class Ui {
 	
-	private static ArrayList<URL> selectedImages = new ArrayList<URL>();
-	
-	/*
-	public static void main(String[] args) throws IOException {
-		JFrame frame = new JFrame("Capcha"); // Création de la fenêtre principale
-		
-		GridLayout layout = createLayout();  // Création d'un layout de type Grille avec 4 lignes et 3 colonnes
-		
-		frame.setLayout(layout);  // affection du layout dans la fenêtre.
-		frame.setSize(1024, 768); // définition de la taille
-		frame.setResizable(false);  // On définit la fenêtre comme non redimentionnable
-		
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Lorsque l'on ferme la fenêtre on quitte le programme.
-		 
-		
-		JButton okButton = createOkButton();
-
-		
-		frame.add(createLabelImage("centre ville.jpg")); //ajouter des composants à la fenêtre
-		frame.add(createLabelImage("le havre.jpg"));
-		frame.add(createLabelImage("panneau 70.jpg"));
-		frame.add(createLabelImage("panneaubleu-carre.jpeg"));
-		frame.add(createLabelImage("parking.jpg"));
-		frame.add(createLabelImage("route panneau.jpg"));
-		frame.add(createLabelImage("tour eiffel.jpg"));
-		frame.add(createLabelImage("ville espace verts.jpg"));
-		frame.add(createLabelImage("voie pieton.jpg"));
-		
-		
-		frame.add(new JTextArea("Cliquez n'importe où ... juste pour tester l'interface !"));
-		
-		
-		frame.add(okButton);
-		
-		frame.setVisible(true);
-	}
-	*/
-	
+	private static ArrayList<fr.upem.captcha.images.Image> selectedImages = new ArrayList<fr.upem.captcha.images.Image>();
 	
 	public static GridLayout createLayout(){
 		return new GridLayout(4,4);
 	}
 	
-	public static JButton createOkButton(){
+	public static JButton createOkButton(Controller ctrl) {
 		return new JButton(new AbstractAction("Vérifier") { //ajouter l'action du bouton
 			
 			@Override
@@ -76,22 +41,39 @@ public class Ui {
 					
 					@Override
 					public void run() { // c'est un runnable
-						System.out.println("J'ai cliqué sur Ok");
+						try {
+							ctrl.check(selectedImages);
+							selectedImages.clear();
+							if (ctrl.getSuccess() == false) { // Mauvaise réponse
+								JOptionPane.showMessageDialog(ctrl.getFrame(),
+									    "Oh non ! Tu t'es trompé.",
+									    "Résultat",
+										JOptionPane.PLAIN_MESSAGE);
+								ctrl.harder(); // On augmente la difficulté
+								ctrl.load(); // On charge les nouvelles images
+								ctrl.updateDisplay(); // On met à jour l'affichage
+							}
+							else {
+								 int input = JOptionPane.showConfirmDialog(ctrl.getFrame(), 
+										 	"Bravo ! Tu n'es pas un robot.",
+											"Résultat",
+											JOptionPane.DEFAULT_OPTION);
+								 if (input == JOptionPane.OK_OPTION || input == JOptionPane.CLOSED_OPTION) {
+									 ctrl.getFrame().dispose();
+								 }
+							}
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
 					}
 				});
 			}
 		});
 	}
 	
-	public static void createDisplay(int difficulty) {
+	public static JLabel createLabelImage(fr.upem.captcha.images.Image image) throws IOException {
 		
-	}
-	
-	public static JLabel createLabelImage(String imageLocation) throws IOException {
-		
-		final URL url = Ui.class.getResource(imageLocation); //Aller chercher les images !! IMPORTANT 
-		
-		//System.out.println(url); 
+		final URL url = Ui.class.getResource(image.getRelativeUrl()); //Aller chercher les images !! IMPORTANT 
 		
 		BufferedImage img = ImageIO.read(url); //lire l'image
 		Image sImage = img.getScaledInstance(1024/4, 768/4, Image.SCALE_SMOOTH); //redimentionner l'image
@@ -130,12 +112,13 @@ public class Ui {
 						if(!isSelected){
 							label.setBorder(BorderFactory.createLineBorder(Color.RED, 3));
 							isSelected = true;
-							selectedImages.add(url);
+							selectedImages.add(image);
+							System.out.println(image.getCategory());
 						}
 						else {
 							label.setBorder(BorderFactory.createEmptyBorder());
 							isSelected = false;
-							selectedImages.remove(url);
+							selectedImages.remove(image);
 						}
 						
 					}
