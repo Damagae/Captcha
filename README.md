@@ -4,7 +4,9 @@ That is very cool!
 
 ## How to make it work?
 Simply run this command:  
+`` shell
 $ java -cp ./classes/ fr.upem.captcha.Main
+``
 
 Have fun!  
 
