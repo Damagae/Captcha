@@ -10,26 +10,24 @@ import javax.swing.JFrame;
 import javax.swing.JTextArea;
 
 import fr.upem.captcha.images.Image;
-import fr.upem.captcha.images.ImagesCollection;
+import fr.upem.captcha.images.Category;
 import fr.upem.captcha.ui.Ui;
 
 public class Controller {
 
 	private boolean success;
-	private boolean action;
 	private int difficulty;
 	private Categories cat;
-	private List<ImagesCollection> categoriesList;
-	private ImagesCollection rightCat;
+	private List<Category> categoriesList;
+	private Category rightCat;
 	private List<Image> imgList;
 	private JFrame frame;
 	private JButton okButton;
 	
 	public Controller() throws Exception {
 		super();
-		action = false;
 		success = false;
-		difficulty = 2;
+		difficulty = 2; // There's only 1 category for level 1, so difficulty is set up to 2
 		cat = new Categories();	
 		imgList = new ArrayList<Image>();	
 	}
@@ -42,20 +40,20 @@ public class Controller {
 		return this.frame;
 	}
 	
+	/* createImageList()
+	 * returns void
+	 * load imgList with every pictures that will be displayed in the captcha 
+	 */
 	public void createImageList() throws Exception {
-		List<Image> right4;
-		List<Image> wrong5;
+		List<Image> right4; // A list of 4 right pictures
+		List<Image> wrong5; // A list of 5 wrong pictures
 		imgList.clear();
-		right4 = rightCat.select(4);
-		imgList.addAll(right4);
-		wrong5 = ImagesCollection.selectRandom(5, categoriesList, rightCat, difficulty);
-		while (wrong5.size() < 5) {
-			System.out.println("Et ça repart");
-			categoriesList = cat.getDifficulty(difficulty);
-			wrong5 = ImagesCollection.selectRandom(5, categoriesList, rightCat, difficulty);
-		}
-		imgList.addAll(wrong5);
-		Collections.shuffle(imgList);
+		right4 = rightCat.select(4); // 4 pictures are selected from the right category
+		imgList.addAll(right4); // pictures are added to the list
+		wrong5 = Category.selectRandom(5, categoriesList, rightCat, difficulty);
+		// 5 random wrong pictures are selected, given the categoriesList, the rightCat and difficulty 
+		imgList.addAll(wrong5); // pictures are added to the list
+		Collections.shuffle(imgList); // the list is shuffled so the 4 right pictures are randomly disposed in the captcha
 	}
 	
 	public void display() throws Exception  {
@@ -75,7 +73,7 @@ public class Controller {
 				frame.add(Ui.createLabelImage(imgList.get(i)));
 			}
 		//}
-		frame.add(new JTextArea("Please select every pictures matching \"" + rightCat.getCategory() + "\""));
+		frame.add(new JTextArea("Please select every pictures matching the word \"" + rightCat.getCategory() + "\""));
 		
 		frame.add(okButton);
 		
@@ -89,7 +87,7 @@ public class Controller {
 				frame.add(Ui.createLabelImage(imgList.get(i)));
 			}
 		
-		frame.add(new JTextArea("Please select every pictures matching \"" + rightCat.getCategory() + "\""));
+		frame.add(new JTextArea("Please select every pictures matching the word \"" + rightCat.getCategory() + "\""));
 		
 		frame.add(okButton);	
 		
@@ -97,24 +95,24 @@ public class Controller {
 	}
 	
 	public void harder() {
-		if (difficulty + 1 < 5)
+		if (difficulty < 4)
 			++difficulty;
 	}
 	
 	public void load() throws Exception {
-		categoriesList = cat.getDifficulty(difficulty);
-		rightCat = cat.getRandomCat(categoriesList);
+		categoriesList = cat.getDifficulty(difficulty); // Load a list of categories that fits the given difficulty
+		rightCat = cat.getRandomCat(categoriesList); // Choose a category among given ones that will be the right one
 		createImageList();
 	}
 
 	public boolean verify(ArrayList<fr.upem.captcha.images.Image> list) throws Exception {
 		int count = 0;
 		for (int i = 0; i < list.size(); ++i) {
-			if (!list.get(i).getICClass().isPhotoCorrect(rightCat))
+			if (!list.get(i).getCategoryClass().isPhotoCorrect(rightCat)) // Vérifie que la classe de chaque Image correspond à celle de rightcat
 				return false;
 			++count;
 		}
-		if (count == 4)
+		if (count >= 4) // Vérifie qu'il y a au moins bonnes images 
 			return true;
 		else
 			return false;

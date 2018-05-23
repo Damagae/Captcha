@@ -6,5 +6,5 @@ public interface Images {
 	public List<Image> getPhotos();
 	public List<Image> getRandomPhotos();
 	public Image getRandomPhoto();
-	public boolean isPhotoCorrect(ImagesCollection imgCollection);
+	public boolean isPhotoCorrect(Category imgCollection);
 }

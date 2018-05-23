@@ -7,11 +7,11 @@ import java.util.List;
 
 import fr.upem.captcha.images.Image;
 
-public abstract class ImagesCollection implements Images {
+public abstract class Category implements Images {
 	protected List<Image> list;
 	public String categoryUrl;
 	
-	public ImagesCollection() {
+	public Category() {
 		super();
 		list = new ArrayList<Image>();
 		String path = Images.class.getResource("Images.class").getPath();
@@ -57,7 +57,7 @@ public abstract class ImagesCollection implements Images {
 	}
 
 	@Override
-	public boolean isPhotoCorrect(ImagesCollection imgCollection) {
+	public boolean isPhotoCorrect(Category imgCollection) {
 		if (this.categoryUrl.contains(imgCollection.getCategory())) {
 			return true;
 		}
@@ -88,7 +88,7 @@ public abstract class ImagesCollection implements Images {
 		list.add(img);
 	}
 	
-	public static List<Image> selectRandom(int nbr, List<ImagesCollection> list, ImagesCollection rightCategory, int level) throws ClassNotFoundException {
+	public static List<Image> selectRandom(int nbr, List<Category> list, Category rightCategory, int level) throws ClassNotFoundException {
 		List<Image> allPhotos = new ArrayList<Image>();
 		List<Image> selectedPhotos = new ArrayList<Image>();
 		for (int i = 0; i < list.size(); ++i) {
