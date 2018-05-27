@@ -1,12 +1,21 @@
+/* * * * * * * * * * * * * * * * * *
+ * CAPTCHA                         *
+ * par Daphné Rose et Flavie Lucas *
+ *                                 *
+ * Class Controller                *
+ * * * * * * * * * * * * * * * * * */
+
 package fr.upem.captcha;
 
 import java.awt.GridLayout;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JTextArea;
 
 import fr.upem.captcha.images.Image;
@@ -44,7 +53,7 @@ public class Controller {
 	 * returns void
 	 * load imgList with every pictures that will be displayed in the captcha 
 	 */
-	public void createImageList() throws Exception {
+	private void createImageList() throws Exception {
 		List<Image> right4; // A list of 4 right pictures
 		List<Image> wrong5; // A list of 5 wrong pictures
 		imgList.clear();
@@ -56,9 +65,9 @@ public class Controller {
 		Collections.shuffle(imgList); // the list is shuffled so the 4 right pictures are randomly disposed in the captcha
 	}
 	
-	public void display() throws Exception  {
+	private void display() throws Exception {
 		frame = new JFrame("Captcha"); // Création de la fenêtre principale
-		GridLayout layout = Ui.createLayout();  // Création d'un layout de type Grille avec 4 lignes et 3 colonnes
+		GridLayout layout = Ui.createLayout5();  // Création d'un layout de type Grille avec 4 lignes et 3 colonnes
 		
 		frame.setLayout(layout);  // affection du layout dans la fenêtre.
 		frame.setSize(1024, 768); // définition de la taille
@@ -68,30 +77,33 @@ public class Controller {
 
 		okButton = Ui.createOkButton(this);
 		
-		//if (imgList.size() == 9) {
+		this.setFrame();
+	}
+	
+	public void setFrame() throws IOException {
+		frame.add(new JLabel(""));
+		frame.add(new JLabel("<html>Veuillez choisir les images correspondant au mot \"" + rightCat.getCategory() + "\"</html>"), 1);
+		frame.add(new JLabel(""));
+		
+		if (imgList.size() == 9) {
 			for (int i = 0; i < 9; ++i) {
 				frame.add(Ui.createLabelImage(imgList.get(i)));
 			}
-		//}
-		frame.add(new JTextArea("Please select every pictures matching the word \"" + rightCat.getCategory() + "\""));
+		}
+		else {
+			System.out.println("Les images n'ont pas été complètement chargées");
+		}
 		
-		frame.add(okButton);
+		frame.add(new JLabel(""));
+		
+		frame.add(okButton);	
 		
 		frame.setVisible(true);
 	}
 	
 	public void updateDisplay() throws Exception {
 		frame.getContentPane().removeAll();
-		
-			for (int i = 0; i < 9; ++i) {
-				frame.add(Ui.createLabelImage(imgList.get(i)));
-			}
-		
-		frame.add(new JTextArea("Please select every pictures matching the word \"" + rightCat.getCategory() + "\""));
-		
-		frame.add(okButton);	
-		
-		frame.setVisible(true);
+		this.setFrame();
 	}
 	
 	public void harder() {
@@ -101,11 +113,13 @@ public class Controller {
 	
 	public void load() throws Exception {
 		categoriesList = cat.getDifficulty(difficulty); // Load a list of categories that fits the given difficulty
+		Collections.shuffle(categoriesList);
 		rightCat = cat.getRandomCat(categoriesList); // Choose a category among given ones that will be the right one
 		createImageList();
 	}
 
 	public boolean verify(ArrayList<fr.upem.captcha.images.Image> list) throws Exception {
+		// On ne met pas de requireNonNull ici car la liste peut être vide
 		int count = 0;
 		for (int i = 0; i < list.size(); ++i) {
 			if (!list.get(i).getCategoryClass().isPhotoCorrect(rightCat)) // Vérifie que la classe de chaque Image correspond à celle de rightcat

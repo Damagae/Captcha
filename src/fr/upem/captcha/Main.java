@@ -1,3 +1,10 @@
+/* * * * * * * * * * * * * * * * * *
+ * CAPTCHA                         *
+ * par Daphné Rose et Flavie Lucas *
+ *                                 *
+ * Class Main                      *
+ * * * * * * * * * * * * * * * * * */
+
 package fr.upem.captcha;
 
 public class Main {

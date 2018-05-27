@@ -1,3 +1,10 @@
+/* * * * * * * * * * * * * * * * * *
+ * CAPTCHA                         *
+ * par Daphné Rose et Flavie Lucas *
+ *                                 *
+ * Class Ui                        *
+ * * * * * * * * * * * * * * * * * */
+
 package fr.upem.captcha.ui;
 
 import java.awt.Color;
@@ -30,9 +37,15 @@ public class Ui {
 		return new GridLayout(4,4);
 	}
 	
+	public static GridLayout createLayout5(){
+		return new GridLayout(5,4);
+	}
+	
 	public static JButton createOkButton(Controller ctrl) {
 		return new JButton(new AbstractAction("Vérifier") { //ajouter l'action du bouton
-			
+
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				EventQueue.invokeLater(new Runnable() { 
@@ -45,7 +58,7 @@ public class Ui {
 							selectedImages.clear();
 							if (ctrl.getSuccess() == false) { // Mauvaise réponse
 								JOptionPane.showMessageDialog(ctrl.getFrame(),
-									    "Oh non ! Tu t'es trompé.",
+									    "Oh non ! Vous vous êtes trompé.",
 									    "Résultat",
 										JOptionPane.PLAIN_MESSAGE);
 								ctrl.harder(); // On augmente la difficulté
@@ -54,7 +67,7 @@ public class Ui {
 							}
 							else {
 								 int input = JOptionPane.showConfirmDialog(ctrl.getFrame(), 
-										 	"Bravo ! Tu n'es pas un robot.",
+										 	"Bravo ! Vous n'êtes pas un robot.",
 											"Résultat",
 											JOptionPane.DEFAULT_OPTION);
 								 if (input == JOptionPane.OK_OPTION || input == JOptionPane.CLOSED_OPTION) {
@@ -112,7 +125,6 @@ public class Ui {
 							label.setBorder(BorderFactory.createLineBorder(Color.RED, 3));
 							isSelected = true;
 							selectedImages.add(image);
-							System.out.println(image.getCategory());
 						}
 						else {
 							label.setBorder(BorderFactory.createEmptyBorder());

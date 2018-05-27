@@ -1,15 +1,24 @@
+/* * * * * * * * * * * * * * * * * *
+ * CAPTCHA                         *
+ * par Daphné Rose et Flavie Lucas *
+ *                                 *
+ * Class Category                  *
+ * * * * * * * * * * * * * * * * * */
+
 package fr.upem.captcha.images;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import fr.upem.captcha.images.Image;
 
 public abstract class Category implements Images {
-	protected List<Image> list;
-	public String categoryUrl;
+	private List<Image> list;
+	private String categoryUrl;
 	
 	public Category() {
 		super();
@@ -20,7 +29,8 @@ public abstract class Category implements Images {
 		browsesRepositories();
 	}
 
-	public String toPathFormat(String packageName) {
+	private String toPathFormat(String packageName) {
+		Objects.requireNonNull(packageName, "packageName ne peut pas être nul");
 		packageName = packageName.replace(".", "/");
 		packageName =  packageName.substring(packageName.lastIndexOf("images/"), packageName.length());
 		packageName = packageName.replace("images/", "/");
@@ -41,6 +51,10 @@ public abstract class Category implements Images {
 
 	@Override
 	public List<Image> getPhotos() {
+		return list.stream().filter(img -> isClass(img)).collect(Collectors.toList());
+	}
+	
+	public List<Image> getAllPhotos() {
 		return list;
 	}
 
@@ -58,6 +72,7 @@ public abstract class Category implements Images {
 
 	@Override
 	public boolean isPhotoCorrect(Category imgCollection) {
+		Objects.requireNonNull(imgCollection, "imgCollection ne peut pas être nul");	
 		if (this.categoryUrl.contains(imgCollection.getCategory())) {
 			return true;
 		}
@@ -77,7 +92,8 @@ public abstract class Category implements Images {
 		return list;
 	}
 	
-	public void addToList(String subCategory, String filepath) {
+	private void addToList(String subCategory, String filepath) {
+		Objects.requireNonNull(filepath, "filepath ne peut pas être nul");
 		Image img;
 		if (subCategory != "") {
 			img = new Image(filepath, subCategory);
@@ -89,10 +105,21 @@ public abstract class Category implements Images {
 	}
 	
 	public static List<Image> selectRandom(int nbr, List<Category> list, Category rightCategory, int level) throws ClassNotFoundException {
+		Objects.requireNonNull(nbr, "nbr ne peut pas être nul");
+		Objects.requireNonNull(list, "list ne peut pas être nul");
+		Objects.requireNonNull(rightCategory, "rightCategory ne peut pas être nul");
+		Objects.requireNonNull(level, "level ne peut pas être nul");
+		
 		List<Image> allPhotos = new ArrayList<Image>();
 		List<Image> selectedPhotos = new ArrayList<Image>();
 		for (int i = 0; i < list.size(); ++i) {
-			System.out.println(level);
+			/* On vérifie que que la catégorie chargée n'est pas la bonne
+			 * Puis, selon la difficulté, on vérifie si la catégorie chargée est plus ou moins apparentée
+			 * avec la bonne catégorie
+			 * Plus le niveau augmente, plus les catégories ont un package similaire
+			 * Si la N-ième catégorie parente de rightCat apparaît dans le package de la catégories chargée
+			 * Alors on peut utiliser cette catégorie
+			 */
 			if (list.get(i).getClass() != rightCategory.getClass()
 				&& list.get(i).getClass().getPackageName().contains(rightCategory.getNParentClassName(5 - level)))
 			{
@@ -109,24 +136,24 @@ public abstract class Category implements Images {
 	}
 	
 	private String getNParentClassName(int N) throws ClassNotFoundException {
-		System.out.println(N);
 		String pack = this.getClass().getPackageName();
-		System.out.println(pack);
 		for (int i = 0; i < N; ++i) {
-			System.out.println("Hola");
 			pack = pack.substring(0, pack.lastIndexOf("."));
 		}
 		pack = pack.substring(pack.lastIndexOf("."), pack.length());
 		pack = pack.replace(".", "");
-		System.out.println(pack);
 		return pack;
 	}
 
-	public void browsesRepositories() {
+	private void browsesRepositories() {
         browsesRepositories(new File(this.categoryUrl), "", 0, 10);
     }
 	
-    public void browsesRepositories(File dir, String subCategory, int depth, int maxDepth) {
+    private void browsesRepositories(File dir, String subCategory, int depth, int maxDepth) {
+    	Objects.requireNonNull(dir, "dir ne peut pas être nul");
+		Objects.requireNonNull(subCategory, "subCategory ne peut pas être nul");
+		Objects.requireNonNull(depth, "depth ne peut pas être nul");
+		Objects.requireNonNull(maxDepth, "maxDepth ne peut pas être nul");
         if (depth > maxDepth) {
             return;
         }
@@ -149,8 +176,13 @@ public abstract class Category implements Images {
         }
     }
     
-    public boolean matchesCategory(String path) {
+    private boolean matchesCategory(String path) {
+    	Objects.requireNonNull(path, "path ne peut pas être nul");
     	return path.contains(this.getClass().getSimpleName().toLowerCase());
+    }
+    
+    private boolean isClass(Image img) {
+    	return this.getClass().getSimpleName().toLowerCase().equals(img.getCategory());
     }
 
 }

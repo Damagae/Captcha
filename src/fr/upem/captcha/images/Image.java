@@ -1,3 +1,10 @@
+/* * * * * * * * * * * * * * * * * *
+ * CAPTCHA                         *
+ * par Daphné Rose et Flavie Lucas *
+ *                                 *
+ * Class Image                     *
+ * * * * * * * * * * * * * * * * * */
+
 package fr.upem.captcha.images;
 
 public class Image {
@@ -31,13 +38,6 @@ public class Image {
 	
 	public String getCategory() {
 		return this.category;
-	}
-	
-	public boolean isClass(String clazz) throws Exception {
-		System.out.println(this.getCategory() + " versus " + clazz);
-		if (this.getCategory().equals(clazz))
-			return true;
-		return false;
 	}
 
 	@Override
